@@ -12,7 +12,7 @@
 
 ### Console
 
-[![Install this extension in your Firebase project](../install-extension.png?raw=true "Install this extension in your Firebase project")](https://console.firebase.google.com/project/_/extensions/install?ref=puf/storage-firestore-sync)
+[![Install this extension in your Firebase project](https://github.com/FirebaseExtended/experimental-extensions/raw/next/install-extension.png?raw=true "Install this extension in your Firebase project")](https://console.firebase.google.com/project/_/extensions/install?ref=puf/storage-firestore-sync)
 
 ### Firebase CLI
 
