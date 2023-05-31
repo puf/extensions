@@ -1,0 +1,84 @@
+name: storage-firestore-sync
+version: 0.0.1
+specVersion: v1beta  # Firebase Extensions specification version (do not edit)
+
+displayName: Synchronize files in a Storage folder to Firestore
+description: >-
+  This extension synchronizes files in a configurable Storage folder to Firestore.
+
+license: Apache-2.0  # https://spdx.org/licenses/
+
+# Public URL for the source code of your extension
+sourceUrl: https://github.com/firebase/firebase-tools/tree/master/templates/extensions
+
+billingRequired: true
+
+# In an `apis` field, list any Google APIs (like Cloud Translation, BigQuery, etc.)
+# required for your extension to operate.
+# Learn more in the docs:
+# https://firebase.google.com/docs/extensions/reference/extension-yaml#apis-field
+
+# In a `roles` field, list any IAM access roles required for your extension to operate.
+# Learn more in the docs:
+# https://firebase.google.com/docs/extensions/reference/extension-yaml#roles-field
+
+# In the `resources` field, list each of your extension's functions, including the trigger for each function.
+# Learn more in the docs:
+# https://firebase.google.com/docs/extensions/reference/extension-yaml#resources-field
+resources:
+  - name: onStorageFirestoreSync
+    type: firebaseextensions.v1beta.function
+    description: >-
+      Listens for files uploaded to a specified Cloud Storage bucket.
+      If the file is in the configured path, it synchronizes the file contents to Firestore.
+    properties:
+      location: ${LOCATION}
+      runtime: "nodejs16"
+      eventTrigger:
+        eventType: google.storage.object.finalize
+        resource: projects/_/buckets/${param:EXTENSION_BUCKET}
+
+# In the `params` field, set up your extension's user-configured parameters.
+# Learn more in the docs:
+# https://firebase.google.com/docs/extensions/reference/extension-yaml#params-field
+params:
+  - param: PREFIX
+    label: The folder/path in Cloud Storage to sync
+    description: >-
+      What is the folder/path in Cloud Storage that you want to synchronize?
+      Start without a /, but end with a /.
+    type: string
+    default: /
+    required: true
+    immutable: false
+
+  - param: LOCATION
+    label: Cloud Functions location
+    description: >-
+      Where do you want to deploy the functions created for this extension?
+      For help selecting a location, refer to the [location selection
+      guide](https://firebase.google.com/docs/functions/locations).
+    type: select
+    options:
+      - label: Iowa (us-central1)
+        value: us-central1
+    required: true
+    immutable: true
+
+  - param: EXTENSION_BUCKET
+    label: Cloud Storage bucket for input
+    description: >
+      The Cloud Storage bucket that the extension should be listening to. Files
+      uploaded to this bucket will be checked against the PREFIX, and if those
+      match, the file will be synchronized to Firestore.
+    type: selectResource
+    resourceType: storage.googleapis.com/Bucket
+    example: my-project-12345.appspot.com
+    validationRegex: ^([0-9a-z_.-]*)$
+    validationErrorMessage: Invalid storage bucket
+    default: ${STORAGE_BUCKET}
+    required: true
+
+roles:
+  - role: datastore.user
+    reason: Allows the extension to read / write to your Firestore instance.
