@@ -1,5 +1,5 @@
 name: storage-firestore-sync
-version: 0.0.2
+version: 0.0.3
 specVersion: v1beta  # Firebase Extensions specification version (do not edit)
 
 displayName: Synchronize files in a Storage folder to Firestore
@@ -82,5 +82,5 @@ params:
 roles:
   - role: datastore.user
     reason: Allows the extension to read / write to your Firestore instance.
-  - role: storage.objects.get
-    reason: Allows the extension to read files from your Storage bucket(s).
+  - role: storage.objectAdmin
+    reason: Allows the extension to read / write to your Storage bucket(s).
