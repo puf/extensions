@@ -82,3 +82,5 @@ params:
 roles:
   - role: datastore.user
     reason: Allows the extension to read / write to your Firestore instance.
+  - role: storage.objects.get
+    reason: Allows the extension to read files from your Storage bucket(s).
