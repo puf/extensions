@@ -9,7 +9,7 @@ description: >-
 license: Apache-2.0  # https://spdx.org/licenses/
 
 # Public URL for the source code of your extension
-sourceUrl: https://github.com/firebase/firebase-tools/tree/master/templates/extensions
+sourceUrl: https://github.com/puf/extensions/tree/main/storage-firestore-sync
 
 billingRequired: true
 
